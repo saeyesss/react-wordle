@@ -1,10 +1,12 @@
 /* jshint ignore:start */
 
-import React, { useCallback, useEffect } from 'react';
-
+import React, { useCallback, useEffect, useContext } from 'react';
+import { AppContext } from '../App';
 import Key from './Key';
 
 function Keyboard() {
+  const { onEnter, onDelete, onSelectLetter } = useContext(AppContext);
+
   // three arrays for three rows of keys
   // to be mapped through
 
@@ -13,21 +15,28 @@ function Keyboard() {
   const keys3 = ['Z', 'X', 'C', 'V', 'B', 'N', 'M'];
 
   const handleKeyboard = useCallback((event) => {
-    if (event.key === "Enter") {
-
+    if (event.key === 'Enter') {
+      onEnter();
+    } else if (event.key === 'Backspace') {
+      onDelete();
+    } else {
+      keys1.forEach((key) => {
+        if (event.key.toLowerCase() === key.toLowerCase()) {
+          onSelectLetter(key);
+        }
+      });
+      keys2.forEach((key) => {
+        if (event.key.toLowerCase() === key.toLowerCase()) {
+          onSelectLetter(key);
+        }
+      });
+      keys3.forEach((key) => {
+        if (event.key.toLowerCase() === key.toLowerCase()) {
+          onSelectLetter(key);
+        }
+      });
     }
-    else if (event.key === "Backspace") {
-
-    }
-    else {
-      keys1.forEach(Key) => {
-    if (event.key === Key) {
-      onSelectLetter(Key)
-    }
-     }
-    }
-  }
-  );
+  });
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyboard);

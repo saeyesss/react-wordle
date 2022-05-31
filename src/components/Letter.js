@@ -6,8 +6,12 @@ import { AppContext } from '../App';
 
 function Letter({ letterPos, attemptVal }) {
   const { board } = useContext(AppContext);
-  // const letter = board[attemptVal][letterPos];
-  return <div className="letter"> {board} </div>;
+  const letter = board[attemptVal][letterPos];
+  return (
+    <div className="letter" id>
+      {letter}
+    </div>
+  );
 }
 
 export default Letter;

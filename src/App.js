@@ -11,6 +11,7 @@ function App() {
 
   const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPos: 0 });
 
+  const correctWord = 'MAYOR';
   const onSelectLetter = (key) => {
     if (currAttempt.letter > 4) return;
     const newBoard = [...board];
@@ -49,7 +50,8 @@ function App() {
             setCurrAttempt,
             onSelectLetter,
             onEnter,
-            onDelete)
+            onDelete,
+            correctWord)
           }
         >
           <Board />
