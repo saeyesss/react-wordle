@@ -68,7 +68,10 @@ function Keyboard() {
           return <Key keyVal={key} disabled={disabledLetters.includes(key)} />;
         })}
 
-        <Key keyVal={'DELETE'} bigKey />
+        <Key
+          keyVal={<span class="material-icons-outlined">backspace</span>}
+          bigKey
+        />
       </div>
     </div>
   );
