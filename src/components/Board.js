@@ -1,7 +1,3 @@
-/* jshint ignore:start */
-
-import React, { useContext } from 'react';
-import { AppContext } from '../App';
 import Letter from './Letter';
 
 function Board() {
