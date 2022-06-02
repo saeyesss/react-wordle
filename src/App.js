@@ -1,17 +1,25 @@
 /* jshint ignore:start */
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 import './App.css';
 import Keyboard from './components/Keyboard';
 import Board from './components/Board';
-import { boardDefault } from './Words';
+import { boardDefault, generateWordSet } from './Words';
 
 function App() {
   const [board, setBoard] = useState(boardDefault);
 
   const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPos: 0 });
-
+  const [wordSet, setWordSet] = useState(new Set());
+  const [disabledLetters, setDisabledLetter] = useState([]);
   const correctWord = 'MAYOR';
+
+  useEffect(() => {
+    generateWordSet().then((words) => {
+      setWordSet(words.wordSet);
+    });
+  }, []);
+
   const onSelectLetter = (key) => {
     if (currAttempt.letter > 4) return;
     const newBoard = [...board];
@@ -33,7 +41,19 @@ function App() {
 
   const onEnter = () => {
     if (currAttempt.letterPos !== 5) return;
-    setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 });
+    let currWord = '';
+    for (let i = 0; i < 5; i++) {
+      currWord += board[currAttempt.attempt][i];
+    }
+    if (wordSet.has(currWord.toLowerCase)) {
+      setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 });
+    } else {
+      alert('word not found');
+    }
+
+    if (currWord === correctWord) {
+      alert('You won');
+    }
   };
 
   return (
@@ -51,7 +71,9 @@ function App() {
             onSelectLetter,
             onEnter,
             onDelete,
-            correctWord)
+            correctWord,
+            disabledLetters,
+            setDisabledLetter)
           }
         >
           <Board />
